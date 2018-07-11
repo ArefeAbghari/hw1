@@ -1,0 +1,443 @@
+---
+title: "HW1"
+output:
+  html_document: default
+  pdf: default
+
+---
+
+<div align="center">
+</div>
+<h1 dir="RTL">
+تمرین سری اول 
+</h>
+
+> <p dir="RTL">
+سوال ۱ #
+</p>
+
+***
+
+<p dir= "RTL">
+برای حل این سوال ابتدا یک ماتریس 
+$n*n$
+می سازم. سپس عددی که باید جمع هر سطر و ستون باشد را به دست م یآورم. 
+$number=(1+n**2)*n**2/(2*n)$
+سپس در دو بردار اختلاف جمع هر سطر و ستون با مقداری که باید در نهایت به آن برسد را محاسبه کرده ام و نگه داشته :ام. سپس مسئله را به دو قسمت مربوط به ماتری های با بعد زوج و فرد تقسیم کرده ام . برای ماتری های با بعد زوج مثل ۴ و ۶ بعدی به این صورت عمل کرده ام که ابتدا جمع درایه های ستون ها را ۰ کرده ام با روش زیر
+در بردار 
+$sumcol$
+که اختلاف جمع اعداد هر ستون با مقدار نهایی را نگه داشته ام دیده می شود که این اعداد به صورت قرینه اند زیر اختلاف جمع اعداد ستون ها ثابت است مثلا درایه های این بردار برای ماتریس ۴ در ۴ به این صورت است:
+$-24  -8  8  24$
+و به این صورت است که اختلاف درایه های هر ستون با درایه های همردیف خود در ستون قرینه اش مقسوم علیهی از عدد مربوط به آن ستون است. و بنابراین با جا به جا کردن درایه های همردیف میتوان جمع اعداد هر ستون را به مقدار نهایی رساند. این کار را بین هر دو ستون مقارن انقدر انجام میدهم تا برای همه ی ستون ها 
+$sumcol$ 
+ها صفر شوند. سپس برا ردیف ها هم همین کار را انجام میدهم و در نتیجه ماتریسی خواهیم داشت که جمع همه ی سطر ها و ستون هایش یکسان است. 
+برای ماتریس های ۴ و ۶ بعدی به این صورت است 
+</p>
+
+
+
+ ```{r setup}
+
+n=4
+ms=matrix(1:n**2, nrow=n, ncol=n)
+ma=ms
+number=(1+n**2)*n**2/(2*n)
+sumcol=vector()
+sumrow=vector()
+for (i in 1:n){
+  sumcol[i]=c(sum(ms[,i])-number)
+  
+}
+#print(sumcol)
+
+for (i in 1:n){
+  sumrow[i]=c(sum(ms[i,])-number)
+}
+#print(sumrow)
+if (n%%2==0){
+for (i in 1:as.integer (n/2)) {
+  
+    k=1
+    j=1
+     while (sumcol[i]!=0) {
+       m=0
+       if (k%%2==1) {
+        m=ms[j,i]
+        ms[j,i]=ms[j,n-i+1]
+        ms[j,n-i+1]=m
+        sumcol[i]=c(sum(ms[,i])-number)
+        sumcol[n-i+1]=c(sum(ms[,n-i+1])-number)
+      #print(m) 
+        }
+       else{
+         m=ms[n-j+1,i]
+         ms[n-j+1,i]=ms[n-j+1,n-i+1]
+         ms[n-j+1,n-i+1]=m
+         sumcol[i]=c(sum(ms[,i])-number)
+         sumcol[n-i+1]=c(sum(ms[,n-i+1])-number)
+         j=j+1
+      # print(m)
+       
+       }
+       k=k+1
+    
+     
+}
+}
+
+
+for (i in 1:as.integer (n/2)) {
+    k=1
+    j=1
+  
+  
+    while (sumrow[i]!=0) {
+      m=0
+      if (k%%2==1) {
+        m=ms[i,j]
+        ms[i,j]=ms[n-i+1,j]
+        ms[n-i+1,j]=m
+        sumrow[i]=c(sum(ms[i,])-number)
+        sumrow[n-i+1]=c(sum(ms[n-i+1,])-number)
+        #print(sumrow)
+      }
+      else{
+        m=ms[i,n-j+1]
+        ms[i,n-j+1]=ms[n-i+1,n-j+1]
+        ms[n-i+1,n-j+1]=m
+        sumrow[i]=c(sum(ms[i,])-number)
+        sumrow[n-i+1]=c(sum(ms[n-i+1,])-number)
+        j=j+1
+        }
+    
+      k=k+1
+    }
+}
+}
+
+
+
+```
+
+<p dir="RTL">
+و برای ۸ بعدی به این صورت است
+</p>
+
+```
+{r}
+
+ n=6
+ms=matrix(1:n**2, nrow=n, ncol=n)
+ma=ms
+number=(1+n**2)*n**2/(2*n)
+sumcol=vector()
+sumrow=vector()
+for (i in 1:n){
+  sumcol[i]=c(sum(ms[,i])-number)
+  
+}
+#print(sumcol)
+
+for (i in 1:n){
+  sumrow[i]=c(sum(ms[i,])-number)
+}
+#print(sumrow)
+if (n%%2==0){
+for (i in 1:as.integer (n/2)) {
+  
+    k=1
+    j=1
+     while (sumcol[i]!=0) {
+       m=0
+       if (k%%2==1) {
+        m=ms[j,i]
+        ms[j,i]=ms[j,n-i+1]
+        ms[j,n-i+1]=m
+        sumcol[i]=c(sum(ms[,i])-number)
+        sumcol[n-i+1]=c(sum(ms[,n-i+1])-number)
+      #print(m) 
+        }
+       else{
+         m=ms[n-j+1,i]
+         ms[n-j+1,i]=ms[n-j+1,n-i+1]
+         ms[n-j+1,n-i+1]=m
+         sumcol[i]=c(sum(ms[,i])-number)
+         sumcol[n-i+1]=c(sum(ms[,n-i+1])-number)
+         j=j+1
+      # print(m)
+       
+       }
+       k=k+1
+    
+     
+}
+}
+
+
+for (i in 1:as.integer (n/2)) {
+    k=1
+    j=1
+  
+  
+    while (sumrow[i]!=0) {
+      m=0
+      if (k%%2==1) {
+        m=ms[i,j]
+        ms[i,j]=ms[n-i+1,j]
+        ms[n-i+1,j]=m
+        sumrow[i]=c(sum(ms[i,])-number)
+        sumrow[n-i+1]=c(sum(ms[n-i+1,])-number)
+        #print(sumrow)
+      }
+      else{
+        m=ms[i,n-j+1]
+        ms[i,n-j+1]=ms[n-i+1,n-j+1]
+        ms[n-i+1,n-j+1]=m
+        sumrow[i]=c(sum(ms[i,])-number)
+        sumrow[n-i+1]=c(sum(ms[n-i+1,])-number)
+        j=j+1
+        }
+    
+      k=k+1
+    }
+}
+}
+
+
+```
+<p dir="RTL">
+برای ماتریس های با بعد فرد هم بردار های 
+$sumrow$ 
+و
+$sumcol$ 
+قرینه هستند. اما اختلاف اعداد همردیف در ستون های متقارن مقسوم علیهی از آن نیست و جمع اعداد سطر و ستون وسط همان عدد نهایی است . 
+برای حل این مشکل ابتدا برای هر ستون اعداد هم ردیف را با ستون وسط جابه جا کرده ام تا اختلاف اعداد در ستون های متقارن مقسوم علیهی از اعدادی که باید به آن ها کم یا اضافه شود باشند سپس مثل قسمت قبل مسئله را حل کرده ام.  که جواب نهایی به این صورت است.
+
+</p>
+
+
+
+```
+{r}
+n=5
+ms=matrix(1:n**2, nrow=n, ncol=n)
+ma=ms
+number=(1+n**2)*n**2/(2*n)
+sumcol=vector()
+sumrow=vector()
+for (i in 1:n){
+  sumcol[i]=c(sum(ms[,i])-number)
+  
+}
+#print(sumcol)
+
+for (i in 1:n){
+  sumrow[i]=c(sum(ms[i,])-number)
+}
+#print(sumrow)
+if (n%%2==0){
+for (i in 1:as.integer (n/2)) {
+  
+    k=1
+    j=1
+     while (sumcol[i]!=0) {
+       m=0
+       if (k%%2==1) {
+        m=ms[j,i]
+        ms[j,i]=ms[j,n-i+1]
+        ms[j,n-i+1]=m
+        sumcol[i]=c(sum(ms[,i])-number)
+        sumcol[n-i+1]=c(sum(ms[,n-i+1])-number)
+      #print(m) 
+        }
+       else{
+         m=ms[n-j+1,i]
+         ms[n-j+1,i]=ms[n-j+1,n-i+1]
+         ms[n-j+1,n-i+1]=m
+         sumcol[i]=c(sum(ms[,i])-number)
+         sumcol[n-i+1]=c(sum(ms[,n-i+1])-number)
+         j=j+1
+      # print(m)
+       
+       }
+       k=k+1
+    
+     
+}
+}
+
+
+for (i in 1:as.integer (n/2)) {
+    k=1
+    j=1
+  
+  
+    while (sumrow[i]!=0) {
+      m=0
+      if (k%%2==1) {
+        m=ms[i,j]
+        ms[i,j]=ms[n-i+1,j]
+        ms[n-i+1,j]=m
+        sumrow[i]=c(sum(ms[i,])-number)
+        sumrow[n-i+1]=c(sum(ms[n-i+1,])-number)
+        #print(sumrow)
+      }
+      else{
+        m=ms[i,n-j+1]
+        ms[i,n-j+1]=ms[n-i+1,n-j+1]
+        ms[n-i+1,n-j+1]=m
+        sumrow[i]=c(sum(ms[i,])-number)
+        sumrow[n-i+1]=c(sum(ms[n-i+1,])-number)
+        j=j+1
+        }
+    
+      k=k+1
+    }
+}
+}
+
+
+ if (n%%2!=0) {
+  for (i in 1:as.integer (n%/%2)) {
+    k=1
+    
+    
+    l=1
+    while (abs(sumcol[i])%%abs(ma[1,i]-ma[1,n-i+1])!=0) {
+      
+      m=0
+      if (l!=i) {
+        m=ms[l,i]
+        ms[l,i]=ms[l,n%/%2+1]
+        ms[l,n%/%2+1]=m
+        sumcol[i]=c(sum(ms[,i])-number)
+        sumcol[n%/%2+1]=c(sum(ms[,n%/%2+1])-number)
+       # print(ms)
+      }
+      l=l+1
+    }
+    
+    l=n
+    while (abs(sumcol[n-i+1])%%abs(ma[1,i]-ma[1,n-i+1])!=0) {
+      
+      m=0
+      if (l!=n-i+1) {
+       # print("yes")
+        m=ms[l,n-i+1]
+        ms[l,n-i+1]=ms[l,n%/%2+1]
+        ms[l,n%/%2+1]=m
+        sumcol[n-i+1]=c(sum(ms[,n-i+1])-number)
+        sumcol[n%/%2+1]=c(sum(ms[,n%/%2+1])-number)
+       # print(ms)
+      }
+      
+      #print(l)
+      l=l-1
+      
+    }
+    j=i
+    while (sumcol[i]!=0) {
+      m=0
+      if (k%%2==1) {
+        m=ms[j,i]
+        ms[j,i]=ms[j,n-i+1]
+        ms[j,n-i+1]=m
+        sumcol[i]=c(sum(ms[,i])-number)
+        sumcol[n-i+1]=c(sum(ms[,n-i+1])-number)
+        #print(m) 
+      }
+      else{
+        m=ms[n-j+1,i]
+        ms[n-j+1,i]=ms[n-j+1,n-i+1]
+        ms[n-j+1,n-i+1]=m
+        sumcol[i]=c(sum(ms[,i])-number)
+        sumcol[n-i+1]=c(sum(ms[,n-i+1])-number)
+        j=j+1
+        # print(m)
+        
+      }
+      k=k+1
+      
+      
+    }
+  }
+   
+   
+   for (i in 1:as.integer (n%/%2)) {
+     k=1
+     
+     
+     l=n
+     while (abs(sumrow[i])%%abs(ma[i,1]-ma[n-i+1,1])!=0) {
+       
+       m=0
+       if (l!=n-i+1) {
+         m=ms[i,l]
+         ms[i,l]=ms[n%/%2+1,l]
+         ms[n%/%2+1,l]=m
+         sumrow[i]=c(sum(ms[i,])-number)
+         sumrow[n%/%2+1]=c(sum(ms[n%/%2+1,])-number)
+         #print(ms)
+       }
+       l=l-1
+     }
+     
+     l=1
+     while (abs(sumrow[n-i+1])%%abs(ma[i,1]-ma[n-i+1,1])!=0) {
+       
+       m=0
+       if (l!=i) {
+         #print("yes")
+         m=ms[n-i+1,l]
+         ms[n-i+1,l]=ms[n%/%2+1,l]
+         ms[n%/%2+1,l]=m
+         sumrow[n-i+1]=c(sum(ms[n-i+1,])-number)
+         sumrow[n%/%2+1]=c(sum(ms[n%/%2+1,])-number)
+         #print(ms)
+       }
+       
+   #    print(l)
+       l=l+1
+       
+     }
+     j=i
+     
+     
+     
+     while (sumrow[i]!=0) {
+       m=0
+       if (k%%2==1) {
+         m=ms[i,j]
+         ms[i,j]=ms[n-i+1,j]
+         ms[n-i+1,j]=m
+         sumrow[i]=c(sum(ms[i,])-number)
+         sumrow[n-i+1]=c(sum(ms[n-i+1,])-number)
+         #print(m) 
+       }
+       else{
+         m=ms[i,n-j+1]
+         ms[i,n-j+1]=ms[n-i+1,n-j+1]
+         ms[n-i+1,n-j+1]=m
+         sumrow[i]=c(sum(ms[i,])-number)
+         sumrow[n-i+1]=c(sum(ms[n-i+1,])-number)
+         j=j+1
+         # print(m)
+         
+       }
+       k=k+1
+       
+       
+     }
+     
+    
+   }
+   
+   
+   
+ }
+
+
+print(ms)
+
+
+```
